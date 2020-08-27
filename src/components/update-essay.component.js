@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
-import axios from 'axios';
+import axios from "axios";
+import DatePicker from "react-datepicker";
 
-export default class CreateEssay extends Component {
+export default class UpdateEssay extends Component {
     constructor(props) {
         super(props);
 
@@ -21,6 +20,18 @@ export default class CreateEssay extends Component {
     }
 
     componentDidMount() {
+        axios.get('http://localhost:5000/exercises'+this.props.match.params.id)
+            .then(response => {
+                this.setState({
+                    username: response.data.username,
+                    content: response.data.content,
+                    date: new Date(response.data.date)
+                })
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+
         axios.get('http://localhost:5000/users/')
             .then(response => {
                 if (response.data.length > 0) {
@@ -63,7 +74,7 @@ export default class CreateEssay extends Component {
 
         console.log(this.state.date);
 
-        axios.post('http://localhost:5000/essays/add', essay)
+        axios.post('http://localhost:5000/essays/update/'+this.props.match.params.id, essay)
             .then(res => console.log(res.data));
 
         window.location = '/';
@@ -72,7 +83,7 @@ export default class CreateEssay extends Component {
     render() {
         return (
             <div>
-                <h3>Create New Essay</h3>
+                <h3>Update Essay</h3>
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
                         <label>Username: </label>
