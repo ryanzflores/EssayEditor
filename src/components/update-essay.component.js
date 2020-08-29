@@ -8,22 +8,24 @@ export default class UpdateEssay extends Component {
 
         this.onChangeUsername = this.onChangeUsername.bind(this);
         this.onChangeContent = this.onChangeContent.bind(this);
+        this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onChangeDate = this.onChangeDate.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
             username: '',
+            description: '',
             content: '',
             date: new Date(),
             users: []
         }
-    }
 
-    componentDidMount() {
         axios.get('http://localhost:5000/essays/'+this.props.match.params.id)
             .then(response => {
+                console.log(response.data.username);
                 this.setState({
                     username: response.data.username,
+                    description: response.data.description,
                     content: response.data.content,
                     date: new Date(response.data.date)
                 })
@@ -43,9 +45,19 @@ export default class UpdateEssay extends Component {
             })
     }
 
+    componentDidMount() {
+
+    }
+
     onChangeUsername(e) {
         this.setState({
             username: e.target.value
+        });
+    }
+
+    onChangeDescription(e) {
+        this.setState({
+            description: e.target.value
         });
     }
 
@@ -103,12 +115,21 @@ export default class UpdateEssay extends Component {
                         </select>
                     </div>
                     <div className="form-group">
-                        <label>Content: </label>
+                        <label>Description: </label>
                         <input  type="text"
                                 required
                                 className="form-control"
-                                value={this.state.content}
-                                onChange={this.onChangeContent}
+                                value={this.state.description}
+                                onChange={this.onChangeDescription}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Content: </label>
+                        <textarea
+                            required
+                            className="form-control"
+                            value={this.state.content}
+                            onChange={this.onChangeContent}
                         />
                     </div>
                     <div className="form-group">

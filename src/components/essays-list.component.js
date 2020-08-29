@@ -5,7 +5,7 @@ import axios from 'axios';
 const Essay = props => (
     <tr>
         <td>{props.essay.username}</td>
-        <td id={"content"}>{props.essay.content}</td>
+        <td>{props.essay.description}</td>
         <td>{props.essay.date.substring(0,10)}</td>
         <td>
             <Link to={"/update/"+props.essay._id}>update</Link> |
@@ -58,7 +58,7 @@ export default class EssaysList extends Component {
                     <thead className="thead-light">
                     <tr>
                         <th>Username</th>
-                        <th>Content</th>
+                        <th>Description</th>
                         <th>Date</th>
                         <th>Actions</th>
                     </tr>

@@ -15,11 +15,13 @@ router.route('/:id').get((req, res) => {
 
 router.route('/add').post((req, res) => {
     const username = req.body.username;
+    const description = req.body.description;
     const content = req.body.content;
     const date = Date.parse(req.body.date);
 
     const newEssay = new Essay({
         username,
+        description,
         content,
         date,
     });
@@ -35,10 +37,15 @@ router.route('/:id').delete((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+
 router.route('/update/:id').post((req, res) => {
+
+
+    // /*
     Essay.findById(req.params.id)
         .then(essay => {
             essay.username = req.body.username;
+            essay.description = req.body.description;
             essay.content = req.body.content;
             essay.date = Date.parse(req.body.date);
 
@@ -47,6 +54,7 @@ router.route('/update/:id').post((req, res) => {
                 .catch(err => res.status(400).json('Error: ' + err));
         })
         .catch(err => res.status(400).json('Error: ' + err));
+     // */
 });
 
 module.exports = router;
