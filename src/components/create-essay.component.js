@@ -116,7 +116,7 @@ export default class CreateEssay extends Component {
                             className="form-control"
                             value={this.state.content}
                             onChange={this.onChangeContent}
-                        ></textarea>
+                        />
                     </div>
                     <div className="form-group">
                         <label>Date: </label>

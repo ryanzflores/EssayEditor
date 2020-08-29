@@ -6,7 +6,7 @@ const Essay = props => (
     <tr>
         <td>{props.essay.username}</td>
         <td>{props.essay.description}</td>
-        <td>{props.essay.date.substring(0,10)}</td>
+        <td>{props.essay.edits.length}</td>
         <td>
             <Link to={"/update/"+props.essay._id}>update</Link> |
             <Link to={"/edit/"+props.essay._id}> edit</Link> |
@@ -59,7 +59,7 @@ export default class EssaysList extends Component {
                     <tr>
                         <th>Username</th>
                         <th>Description</th>
-                        <th>Date</th>
+                        <th>Edits</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
