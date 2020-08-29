@@ -7,6 +7,7 @@ import EssaysList from "./components/essays-list.component";
 import UpdateEssay from "./components/update-essay.component";
 import CreateEssay from "./components/create-essay.component";
 import CreateUser from "./components/create-user.component";
+import EditEssay from "./components/edit-essay.component";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                         <Route path="/update/:id" component={UpdateEssay} />
                         <Route path="/create" component={CreateEssay} />
                         <Route path="/user" component={CreateUser} />
+                        <Route path="/edit/:id" component={EditEssay} />
             </div>
         </Router>
     );

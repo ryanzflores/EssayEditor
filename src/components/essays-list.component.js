@@ -5,10 +5,12 @@ import axios from 'axios';
 const Essay = props => (
     <tr>
         <td>{props.essay.username}</td>
-        <td>{props.essay.content}</td>
+        <td id={"content"}>{props.essay.content}</td>
         <td>{props.essay.date.substring(0,10)}</td>
         <td>
-            <Link to={"/update/"+props.essay._id}>update</Link> | <a href="#" onClick={() => props.deleteEssay(props.essay._id)}>delete</a>
+            <Link to={"/update/"+props.essay._id}>update</Link> |
+            <Link to={"/edit/"+props.essay._id}> edit</Link> |
+            <a href="#" onClick={() => props.deleteEssay(props.essay._id)}> delete</a>
         </td>
     </tr>
 )
@@ -19,7 +21,9 @@ export default class EssaysList extends Component {
 
         this.deleteEssay = this.deleteEssay.bind(this);
 
-        this.state = {essays: []};
+        this.state = {
+            essays: []
+        };
     }
 
     componentDidMount() {
