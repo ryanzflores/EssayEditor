@@ -15,10 +15,9 @@ function App() {
                 <Menubar />
                 <br/>
                         <Route path="/" exact component={EssaysList} />
-                        <Route path="/edit/:id" component={UpdateEssay} />
+                        <Route path="/update/:id" component={UpdateEssay} />
                         <Route path="/create" component={CreateEssay} />
                         <Route path="/user" component={CreateUser} />
-
             </div>
         </Router>
     );

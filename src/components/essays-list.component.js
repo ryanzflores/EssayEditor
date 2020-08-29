@@ -8,7 +8,7 @@ const Essay = props => (
         <td>{props.essay.content}</td>
         <td>{props.essay.date.substring(0,10)}</td>
         <td>
-            <Link to={"/edit/"+props.essay._id}>edit</Link> | <a href="#" onClick={() => props.deleteEssay(props.essay._id)}>delete</a>
+            <Link to={"/update/"+props.essay._id}>update</Link> | <a href="#" onClick={() => props.deleteEssay(props.essay._id)}>delete</a>
         </td>
     </tr>
 )

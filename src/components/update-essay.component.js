@@ -20,7 +20,7 @@ export default class UpdateEssay extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/exercises'+this.props.match.params.id)
+        axios.get('http://localhost:5000/essays/'+this.props.match.params.id)
             .then(response => {
                 this.setState({
                     username: response.data.username,
@@ -122,7 +122,7 @@ export default class UpdateEssay extends Component {
                     </div>
 
                     <div className="form-group">
-                        <input type="submit" value="Create Essay" className="btn btn-primary" />
+                        <input type="submit" value="Update Essay" className="btn btn-primary" />
                     </div>
                 </form>
             </div>

@@ -18,7 +18,6 @@ router.route('/add').post((req, res) => {
     const content = req.body.content;
     const date = Date.parse(req.body.date);
 
-
     const newEssay = new Essay({
         username,
         content,
@@ -37,6 +36,8 @@ router.route('/:id').delete((req, res) => {
 });
 
 router.route('/update/:id').post((req, res) => {
+    console.log("test");
+
     Essay.findById(req.params.id)
         .then(essay => {
             essay.username = req.body.username;
