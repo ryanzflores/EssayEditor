@@ -10,6 +10,7 @@ export default class EditEssay extends Component {
         this.handleMouseUp = this.handleMouseUp.bind(this);
         this.handleSelection = this.handleSelection.bind(this);
         this.onChangeMessage = this.onChangeMessage.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
             username: '',
@@ -17,6 +18,9 @@ export default class EditEssay extends Component {
             content: '',
             date: new Date(),
             highlights: [],
+            start: 0,
+            end: 0,
+            valid: false,
             message: ''
         }
 
@@ -33,8 +37,6 @@ export default class EditEssay extends Component {
             .catch(function (error) {
                 console.log(error);
             })
-
-
     }
 
     componentDidMount() {
@@ -52,6 +54,29 @@ export default class EditEssay extends Component {
         })
     }
 
+    onSubmit(e) {
+        e.preventDefault();
+
+        // TODO: username should be name of submitter, not "placeholder"
+        const edit = {
+            username: 'placeholder',
+            start: this.state.start,
+            end: this.state.end,
+            message: this.state.message,
+            date: this.state.date
+        }
+
+        if (this.state.valid) {
+            axios.post('http://localhost:5000/essays/edit/' + this.props.match.params.id, edit)
+                .then(res => console.log(res.data))
+                .catch(function (error) {
+                    console.log(error);
+                });
+        } else {
+            window.confirm("Select part of the essay before submitting.");
+        }
+    }
+
     handleSelection() {
         const content = document.getElementById("content");
 
@@ -66,6 +91,14 @@ export default class EditEssay extends Component {
 
         if (found) {
             let text = this.state.content.substring(textStart, textEnd);
+
+            let valid = found && (textEnd < this.state.content.length);
+
+            this.setState({
+                start: textStart,
+                end: textEnd,
+                valid: valid
+            });
 
             console.log("start: " + textStart + " end: " + textEnd + " text: " + text);
         }
@@ -89,15 +122,20 @@ export default class EditEssay extends Component {
                         <HighlightedText content={this.state.content}/>
                     </Col>
                     <Col>
-                        <div className="form-group">
-                            <label>Message: </label>
-                            <textarea
-                                required
-                                className="form-control"
-                                value={this.state.message}
-                                onChange={this.onChangeMessage}
-                            />
-                        </div>
+                        <form onSubmit={this.onSubmit}>
+                            <div className="form-group">
+                                <label>Message: </label>
+                                <textarea
+                                    required
+                                    className="form-control"
+                                    value={this.state.message}
+                                    onChange={this.onChangeMessage}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <input type="submit" value="Submit Edit" className="btn btn-primary" />
+                            </div>
+                        </form>
                     </Col>
                 </Row>
             </Container>

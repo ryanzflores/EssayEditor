@@ -26,7 +26,7 @@ router.route('/add').post((req, res) => {
         username,
         description,
         content,
-        date,
+        date
     });
 
     newEssay.save()
@@ -76,8 +76,6 @@ router.route('/edit/:id').post((req, res) => {
 
     Essay.findById(req.params.id)
         .then(essay => {
-            console.log(edit);
-
             edit.save()
                 .then((newEdit) => {Essay.findOneAndUpdate(
                     {_id: essay._id},
