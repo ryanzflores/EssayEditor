@@ -16,6 +16,7 @@ export default class EditEssay extends Component {
             description: '',
             content: '',
             date: new Date(),
+            highlights: [],
             message: ''
         }
 
@@ -32,6 +33,8 @@ export default class EditEssay extends Component {
             .catch(function (error) {
                 console.log(error);
             })
+
+
     }
 
     componentDidMount() {
@@ -83,7 +86,7 @@ export default class EditEssay extends Component {
                         >
                             {this.state.content}
                         </p>
-                        <HighlightedText />
+                        <HighlightedText content={this.state.content}/>
                     </Col>
                     <Col>
                         <div className="form-group">

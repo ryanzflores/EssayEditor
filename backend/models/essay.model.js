@@ -7,7 +7,7 @@ const essaySchema = new Schema({
     description: { type: String, required: true },
     content: { type: String, required: true },
     date: { type: Date, required: true },
-    edits: [{type: mongoose.Types.ObjectId, ref: 'Edit'}]
+    edits: [{type: mongoose.ObjectId, ref: 'Edit'}]
 }, {
     timestamps: true,
 });

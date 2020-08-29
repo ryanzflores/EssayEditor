@@ -1,5 +1,8 @@
 const router = require('express').Router();
+const mongoose = require('mongoose');
+const {Types: {ObjectId}} = mongoose;
 let Essay = require('../models/essay.model');
+let Edit = require('../models/edit.model');
 
 router.route('/').get((req, res) => {
     Essay.find()
@@ -37,7 +40,6 @@ router.route('/:id').delete((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-
 router.route('/update/:id').post((req, res) => {
 
 
@@ -55,6 +57,37 @@ router.route('/update/:id').post((req, res) => {
         })
         .catch(err => res.status(400).json('Error: ' + err));
      // */
+});
+
+router.route('/edit/:id').post((req, res) => {
+    const username = req.body.username;
+    const start = req.body.start;
+    const end = req.body.end;
+    const message = req.body.message;
+    const date = new Date();
+
+    const edit = new Edit({
+        username,
+        start,
+        end,
+        message,
+        date
+    });
+
+    Essay.findById(req.params.id)
+        .then(essay => {
+            console.log(edit);
+
+            edit.save()
+                .then((newEdit) => {Essay.findOneAndUpdate(
+                    {_id: essay._id},
+                    {$push: {edits: edit._id}},
+                    {new: true}
+                ).then(() => res.json('Essay edited!'))
+                    .catch(err => res.status(400).json('Error: ' + err))
+                });
+        })
+        .catch(err => res.status(400).json('Error: ' + err))
 });
 
 module.exports = router;
