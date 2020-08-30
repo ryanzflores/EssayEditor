@@ -30,7 +30,6 @@ export default class HighlightedText extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log("updating. props.content: " + this.props.content + " state.content: " + this.state.content);
         if (this.props.content !== this.state.content || this.props.start !== this.state.start
             || this.props.end !== this.state.end) {
             let content = this.props.content;

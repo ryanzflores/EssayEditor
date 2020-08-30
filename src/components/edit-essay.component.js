@@ -21,7 +21,8 @@ export default class EditEssay extends Component {
             edits: [],
             start: 0,
             end: 0,
-            message: ''
+            message: '',
+            valid: false
         }
     }
 
@@ -55,14 +56,24 @@ export default class EditEssay extends Component {
     onChangeMessage(e) {
         this.setState({
             message: e.target.value
-        })
+        });
     }
 
     onClearHighlight() {
         this.setState({
             start: 0,
-            end: 0
-        })
+            end: 0,
+            valid: false
+        });
+
+        document.getElementById('highlightedContent').classList.add('hidden');
+        document.getElementById('content').classList.remove('hidden');
+
+        window.getSelection().empty();
+
+        this.setState({
+            valid: false
+        });
     }
 
     handleSelection() {
@@ -91,8 +102,12 @@ export default class EditEssay extends Component {
 
             this.setState({
                 start: textStart,
-                end: textEnd
+                end: textEnd,
+                valid: true
             });
+
+            document.getElementById('content').classList.add('hidden');
+            document.getElementById('highlightedContent').classList.remove('hidden');
 
             console.log("start: " + textStart + " end: " + textEnd + " text: " + text);
         } else if (textStart !== textEnd) {
@@ -112,7 +127,7 @@ export default class EditEssay extends Component {
             date: this.state.date
         }
 
-        if (this.state.valid) {
+        if (this.state.start !== 0 && this.state.end !== 0 && this.state.start !== this.state.end) {
             axios.post('http://localhost:5000/essays/edit/' + this.props.match.params.id, edit)
                 .then(res => console.log(res.data))
                 .catch(function (error) {
@@ -121,21 +136,30 @@ export default class EditEssay extends Component {
         } else {
             window.confirm("Select part of the essay before submitting.");
         }
+
+        window.location = '/';
     }
 
     render() {
         return (
             <Container>
+                <style type="text/css">
+                    {`
+                .hidden {
+                   display: none; 
+                }
+                `}
+                </style>
                 <Row>
                     <Col>
                         <Button onClick={this.onClearHighlight} variant="secondary" >Clear Highlight</Button>
                         <br/>
-                        <label className="outside">Content: </label>
+                        <label className="outside"> Content: </label>
                         <br/>
                         <p id="content">
                             {this.state.content}
                         </p>
-                        <div>
+                        <div className="outside hidden" id="highlightedContent">
                             <HighlightedText
                                 content={this.state.content}
                                 edits={this.state.edits}
@@ -144,7 +168,7 @@ export default class EditEssay extends Component {
                             />
                         </div>
                     </Col>
-                    <Col className="outside">
+                    <Col>
                         <form onSubmit={this.onSubmit}>
                             <div className="form-group">
                                 <label>Message: </label>
@@ -156,7 +180,7 @@ export default class EditEssay extends Component {
                                 />
                             </div>
                             <div className="form-group">
-                                <input type="submit" value="Submit Edit" className="btn btn-primary" />
+                                <input disabled={!this.state.valid} type="submit" value="Submit Edit" className="btn btn-primary" />
                             </div>
                         </form>
                     </Col>
