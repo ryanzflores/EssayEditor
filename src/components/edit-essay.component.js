@@ -127,17 +127,18 @@ export default class EditEssay extends Component {
             date: this.state.date
         }
 
-        if (this.state.start !== 0 && this.state.end !== 0 && this.state.start !== this.state.end) {
+        if (this.state.end !== 0 && this.state.start !== this.state.end) {
             axios.post('http://localhost:5000/essays/edit/' + this.props.match.params.id, edit)
                 .then(res => console.log(res.data))
                 .catch(function (error) {
                     console.log(error);
                 });
+
+            window.location = '/';
+
         } else {
             window.confirm("Select part of the essay before submitting.");
         }
-
-        window.location = '/';
     }
 
     render() {
@@ -148,17 +149,19 @@ export default class EditEssay extends Component {
                 .hidden {
                    display: none; 
                 }
+                div {
+                   white-space: pre-wrap;
+                }
                 `}
                 </style>
                 <Row>
                     <Col>
-                        <Button onClick={this.onClearHighlight} variant="secondary" >Clear Highlight</Button>
                         <br/>
                         <label className="outside"> Content: </label>
                         <br/>
-                        <p id="content">
+                        <div id="content">
                             {this.state.content}
-                        </p>
+                        </div>
                         <div className="outside hidden" id="highlightedContent">
                             <HighlightedText
                                 content={this.state.content}
@@ -180,6 +183,7 @@ export default class EditEssay extends Component {
                                 />
                             </div>
                             <div className="form-group">
+                                <Button onClick={this.onClearHighlight} variant="secondary" >Clear Highlight</Button>
                                 <input disabled={!this.state.valid} type="submit" value="Submit Edit" className="btn btn-primary" />
                             </div>
                         </form>
