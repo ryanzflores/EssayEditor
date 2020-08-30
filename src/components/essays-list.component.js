@@ -10,6 +10,7 @@ const Essay = props => (
         <td>
             <Link to={"/update/"+props.essay._id}>update</Link> |
             <Link to={"/edit/"+props.essay._id}> edit</Link> |
+            <Link to={"/view/"+props.essay._id}> view edits</Link> |
             <a href="#" onClick={() => props.deleteEssay(props.essay._id)}> delete</a>
         </td>
     </tr>

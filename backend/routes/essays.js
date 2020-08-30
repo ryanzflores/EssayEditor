@@ -88,4 +88,16 @@ router.route('/edit/:id').post((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err))
 });
 
+router.route('/edits/:id').get((req, res) => {
+    Essay.findById(req.params.id)
+        .then(async function(essay) {
+            Edit.find({
+                '_id': { $in: essay.edits}
+            })
+                .then(edits => res.json(edits))
+                .catch(err => res.status(400).json('Error: ' + err))
+        })
+        .catch(err => res.status(400).json('Error: ' + err))
+});
+
 module.exports = router;
