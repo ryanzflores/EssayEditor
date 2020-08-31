@@ -78,6 +78,7 @@ export default class UpdateEssay extends Component {
 
         const essay = {
             username: this.state.username,
+            description: this.state.description,
             content: this.state.content,
             date: this.state.date
         }
@@ -87,9 +88,10 @@ export default class UpdateEssay extends Component {
         console.log(this.state.date);
 
         axios.post('http://localhost:5000/essays/update/'+this.props.match.params.id, essay)
-            .then(res => console.log(res.data));
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err));
 
-        window.location = '/';
+        // window.location = '/';
     }
 
     render() {
