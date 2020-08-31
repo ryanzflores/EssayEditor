@@ -48,6 +48,10 @@ export default class EditEssay extends Component {
         window.addEventListener('mouseup', this.handleMouseUp, true);
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('mouseup', this.handleMouseUp, true)
+    }
+
     handleMouseUp(ready) {
         // Delay necessary to prevent accidental trigger upon deselection
         setTimeout(this.handleSelection, 50);
@@ -80,15 +84,18 @@ export default class EditEssay extends Component {
         const content = document.getElementById("content");
 
         let selection = window.getSelection();
+        console.log("content:");
+        console.log(content)
         let cursorStart = selection.anchorOffset;
         let cursorEnd = selection.focusOffset;
         let textStart = Math.min(cursorStart, cursorEnd);
         let textEnd = Math.max(cursorStart, cursorEnd);
 
-
+        let found = false;
         // Check that essay content is being selected and selection size != 0
-        let found = selection.containsNode(content, true) && !(textStart === textEnd);
-
+        if (content !== null && selection.type !== "None" && selection.type !== "Caret") {
+            found = selection.containsNode(content, true) && !(textStart === textEnd);
+        }
         const outsides = document.getElementsByClassName("outside");
 
         Array.from(outsides).forEach((element) => {
