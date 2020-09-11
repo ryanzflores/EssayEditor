@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {Nav, Navbar} from 'react-bootstrap';
+import LoginButton from "./login-button.component";
+import LogoutButton from "./logout-button.component";
 export default class Menubar extends Component {
 
     render() {
@@ -13,7 +15,8 @@ export default class Menubar extends Component {
                         <Nav.Link href="/">Essays</Nav.Link>
                         <Nav.Link href="/create">Create Essay</Nav.Link>
                         <Nav.Link href="/user" >Create User</Nav.Link>
-
+                        <LoginButton />
+                        <LogoutButton />
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
