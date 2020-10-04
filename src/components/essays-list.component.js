@@ -77,7 +77,7 @@ export default class EssaysList extends Component {
 
     essayList() {
         return this.state.essays.map(currentEssay => {
-            let date = new Date(Date.parse(currentEssay.date))
+            let date = new Date(currentEssay.date)
             date.setDate(date.getDate() + 3)
             currentEssay.date = date.toString();
             return <Essay essay={currentEssay} deleteEssay={this.deleteEssay} key={currentEssay._id}/>;

@@ -22,6 +22,8 @@ router.route('/add').post((req, res) => {
     const content = req.body.content;
     const date = Date.parse(req.body.date);
 
+    console.log(date);
+
     const newEssay = new Essay({
         username,
         description,
