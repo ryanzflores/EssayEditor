@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
+import Cookies from 'universal-cookie';
 
 export default class CreateEssay extends Component {
     constructor(props) {
@@ -14,7 +14,6 @@ export default class CreateEssay extends Component {
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            username: '',
             description: '',
             content: '',
             date: new Date(),
@@ -59,10 +58,10 @@ export default class CreateEssay extends Component {
     }
 
     onSubmit(e) {
+        const cookies = new Cookies();
         e.preventDefault();
 
         const essay = {
-            username: this.state.username,
             description: this.state.description,
             content: this.state.content,
             date: this.state.date
@@ -72,10 +71,35 @@ export default class CreateEssay extends Component {
 
         console.log(this.state.date);
 
+        // When an essay is successfully created, a cookie named ("essayId" + i) is made,
+        // where i is the first available number from 0 to 29. If 30 essays exist, no more
+        // can be made. Each essay's cookie (and the essay itself) expires after 3 days.
         axios.post('http://localhost:5000/essays/add', essay)
-            .then(res => console.log(res.data));
+            .then(res => {
+                console.log(res.data);
+                let cookieSet = false;
+                for (let i = 0; i < 30; i++) {
+                    let currName = "essayId" + i;
+                    let currCookie = cookies.get(currName);
+                    if (!currCookie) {
+                        let currDate = new Date;
+                        currDate.setDate(currDate.getDate() + 3);
+                        cookies.set(currName, res.data, { path: '/', expires: currDate });
+                        console.log("Cookie set successfully:");
+                        console.log(cookies.get(currName));
+                        i = 30;
+                        cookieSet = true;
+                    }
+                }
 
-        window.location = '/';
+                if (cookieSet) {
+                    window.location = '/'
+                } else {
+                    console.log("More than 30 essays, cannot create another")
+                    window.confirm(`You currently have thirty essays, 
+                                please wait for one to expire before creating another`)
+                }
+            })
     }
 
     render() {
@@ -83,23 +107,6 @@ export default class CreateEssay extends Component {
             <div>
                 <h3>Create New Essay</h3>
                 <form onSubmit={this.onSubmit}>
-                    <div className="form-group">
-                        <label>Username: </label>
-                        <select ref="userInput"
-                                required
-                                className="form-control"
-                                value={this.state.username}
-                                onChange={this.onChangeUsername}>
-                            {
-                                this.state.users.map(function(user) {
-                                    return <option
-                                        key={user}
-                                        value={user}>{user}
-                                    </option>;
-                                })
-                            }
-                        </select>
-                    </div>
                     <div className="form-group">
                         <label>Description: </label>
                         <input  type="text"
@@ -117,15 +124,6 @@ export default class CreateEssay extends Component {
                             value={this.state.content}
                             onChange={this.onChangeContent}
                         />
-                    </div>
-                    <div className="form-group">
-                        <label>Date: </label>
-                        <div>
-                            <DatePicker
-                                selected={this.state.date}
-                                onChange={this.onChangeDate}
-                            />
-                        </div>
                     </div>
 
                     <div className="form-group">
