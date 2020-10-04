@@ -14,7 +14,6 @@ export default class EditEssay extends Component {
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            username: '',
             description: '',
             content: '',
             date: new Date(),
@@ -29,16 +28,10 @@ export default class EditEssay extends Component {
     componentDidMount() {
         axios.get('http://localhost:5000/essays/' + this.props.match.params.id)
             .then(response => {
-                console.log(response.data.username);
                 this.setState({
-                    username: response.data.username,
                     description: response.data.description,
                     content: response.data.content,
                     date: new Date(response.data.date)
-                })
-
-                response.data.edits.forEach(edit => {
-
                 })
             })
             .catch(function (error) {
@@ -125,9 +118,7 @@ export default class EditEssay extends Component {
     onSubmit(e) {
         e.preventDefault();
 
-        // TODO: username should be name of submitter, not "placeholder"
         const edit = {
-            username: 'placeholder',
             start: this.state.start,
             end: this.state.end,
             message: this.state.message,

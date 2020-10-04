@@ -47,28 +47,40 @@ export default class ViewEdits extends Component {
                             username: response.data.username,
                             description: response.data.description,
                             content: response.data.content,
-                            date: new Date(response.data.date)
                         })
                     })
-
-
             })
+            .then(this.onChangeEdit)
             .catch(function (error) {
                 console.log(error);
             })
     }
 
     onChangeEdit(e) {
+
+        console.log(e)
+
         let targetEdit = this.state.edits[e.target.value];
         console.log(targetEdit);
-        this.setState({
-            edit: e.target.value.edit,
-            message: targetEdit.edit.message,
-            start: targetEdit.edit.start,
-            end: targetEdit.edit.end
-        })
+
+        if (targetEdit) {
+            this.setState({
+                edit: e.target.value.edit,
+                message: targetEdit.edit.message,
+                start: targetEdit.edit.start,
+                end: targetEdit.edit.end
+            })
+        } else {
+            this.setState({
+                edit: "",
+                message: "",
+                start: 0,
+                end: 0
+            })
+        }
 
         console.log(this.state.editsResponse);
+
     }
 
     render() {
@@ -101,6 +113,7 @@ export default class ViewEdits extends Component {
                                 className="form-control"
                                 value={this.state.edit}
                                 onChange={this.onChangeEdit}>
+                            <option key={"choose"} value={"choose"}>Choose an option</option>
                             {
                                 this.state.edits.map(function(edit, index) {
                                     return <option
