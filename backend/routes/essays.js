@@ -29,8 +29,10 @@ router.route('/add').post((req, res) => {
         date
     });
 
+    let id = '';
+
     newEssay.save()
-        .then(() => res.json('Essay added!'))
+        .then((essay) => res.json(essay._id))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
@@ -41,9 +43,6 @@ router.route('/:id').delete((req, res) => {
 });
 
 router.route('/update/:id').post((req, res) => {
-
-
-    // /*
     Essay.findById(req.params.id)
         .then(essay => {
             essay.username = req.body.username;
@@ -56,22 +55,17 @@ router.route('/update/:id').post((req, res) => {
                 .catch(err => res.status(400).json('Error: ' + err));
         })
         .catch(err => res.status(400).json('Error: ' + err));
-     // */
 });
 
 router.route('/edit/:id').post((req, res) => {
-    const username = req.body.username;
     const start = req.body.start;
     const end = req.body.end;
     const message = req.body.message;
-    const date = new Date();
 
     const edit = new Edit({
-        username,
         start,
         end,
-        message,
-        date
+        message
     });
 
     Essay.findById(req.params.id)
