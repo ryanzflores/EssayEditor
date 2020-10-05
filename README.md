@@ -4,7 +4,7 @@ This project uses the MERN stack (MongoDB, Express, React, & Node) to allow stud
 
 ![Create Essay](https://raw.githubusercontent.com/ryanzflores/EssayEditor/master/backend/CreateEssay.gif)
 
-To create an essay, navigate to the Create Essay page present in the menu bar. Choose a short description for your essay, and paste in the contents of your essay into the content box. Press submit to save your essay. Your essay will appear in the essay list in the homepage of the app, along with the date it will be automatically deleted and links to make/view edits and manually delete the essay. Essays will automatically be deleted after three days. Please note that if you clear your cookies, your essay will disappear from the essay list, and cannot be recovered.
+To create an essay, navigate to the Create Essay page present in the menu bar. Choose a short description for your essay, and paste in the contents of your essay into the content box. Press submit to save your essay. Your essay will appear in the essay list in the homepage of the app, along with the date it will be automatically deleted and links to make/view edits and manually delete the essay. Other users cannot view your essays. Essays will automatically be deleted after three days. Please note that if you clear your cookies, your essay will disappear from the essay list, and cannot be recovered.
 
 ![Edit Essay](https://raw.githubusercontent.com/ryanzflores/EssayEditor/master/backend/EditEssay.gif)
 
