@@ -28,8 +28,8 @@ export default class ViewEdits extends Component {
                             this.setState({
                                 edits: editsResponse.data.map(function(edit) {
                                     let msg = '';
-                                    if (edit.message.length > 30) {
-                                        msg = edit.message.substring(0, 30) + "...";
+                                    if (edit.message.length > 50) {
+                                        msg = edit.message.substring(0, 50) + "...";
                                     } else {
                                         msg = edit.message;
                                     }
